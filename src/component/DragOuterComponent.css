@@ -1,0 +1,12 @@
+.drag-outer {
+    background-color: #fff;
+    position: fixed;
+    margin-left: 8%;
+    height: 72%;
+    width: 84%;
+    margin-top: 5%;
+    border-radius: 0.25rem;
+    box-shadow: 10px 10px 8px #888888;
+}
+
+
