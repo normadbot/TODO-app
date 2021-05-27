@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { Droppable } from 'react-beautiful-dnd'
 import Task from './Task'
+import './DragOuterComponent.css';
 const Container = styled.div`
   margin: 8px;
   border: 1px solid lightgrey;
-  border-radius: 2px;
-  width: 220px;
+  border-radius: 20px;
+  width: 40rem;
 
   display: flex;
   flex-direction: column;
@@ -22,16 +23,18 @@ const TaskList = styled.div`
 `
 function Column(props) {
   return (
-    <Container>
-         <Title>{props.column.title}</Title>
+    <Container className='drag-column'>
+         <Title className='drag-header'>{props.column.title}</Title>
         <Droppable droppableId={props.column.id} type="TASK">
           {(provided, snapshot) => (
+           
             <TaskList
-              innerRef={provided.innerRef}
+              ref={provided.innerRef}
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
             >
               {props.tasks.map((task, index) => (
+                
                 <Task key={task.id} task={task} index={index} />
               ))}
               {provided.placeholder}

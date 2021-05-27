@@ -1,28 +1,50 @@
 import React from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+
+import "./Task.css";
+import { Button, Divider } from "@material-ui/core";
 
 const Container = styled.div`
   border: 1px solid lightgrey;
-  border-radius: 2px;
-  padding: 8px;
+  border-radius: 10px;
+  padding: 18px;
   margin-bottom: 8px;
   transition: background-color 0.2s ease;
 `;
 
 function Task(props) {
-    const isDragDisabled = props.task.id === 'task-1';
   return (
     <Draggable draggableId={props.task.id} index={props.index}>
       {(provided, snapshot) => (
         <Container
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          innerRef={provided.innerRef}
+          ref={provided.innerRef}
           isDragging={snapshot.isDragging}
-          isDragDisabled={isDragDisabled}
+          isDragDisabled={false}
         >
-          {props.task.content}
+          <h6 className='prio'>Low</h6>
+          <div class="column">
+            <div className="column-icons">
+              <div className="row">
+                <Button className="button-actions">
+                  <DeleteIcon className='icon-color' />
+                </Button>
+              </div>
+              <div className="row">
+                <Button className="button-actions">
+                  <EditIcon className='icon-color'/>
+                </Button>
+              </div>
+            </div>
+            <Divider orientation="vertical" flexItem variant="fullWidth" className='divider-class'/>
+            <div className="task-text">
+              <div className="column ">{props.task.content}</div>
+            </div>
+          </div>
         </Container>
       )}
     </Draggable>

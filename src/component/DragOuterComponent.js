@@ -1,100 +1,100 @@
-import React from "react";
+import React,{useState} from "react";
 import "./DragOuterComponent.css";
-
 import { DragDropContext } from "react-beautiful-dnd";
-import styled from 'styled-components'
+import styled from "styled-components";
 import Column from "./Column";
-import initialData from './initialData'
+import initialData from "./initialData";
+import { Button } from "@material-ui/core";
 const Container = styled.div`
   display: flex;
 `;
 
-const onDragEnd = result => {
-    const { destination, source, draggableId } = result
+function DragOuterComponent() {
+  const [state, setstate] = useState(initialData);
+  const onDragEnd = (result) => {
+    const { destination, source, draggableId } = result;
 
     if (!destination) {
-      return
+      return;
     }
 
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
-      return
+      return;
     }
 
-    const start = initialData.columns[source.droppableId]
-    const finish = initialData.columns[destination.droppableId]
+    const start = state.columns[source.droppableId];
+    const finish = state.columns[destination.droppableId];
 
     if (start === finish) {
-      const newTaskIds = Array.from(start.taskIds)
-      newTaskIds.splice(source.index, 1)
-      newTaskIds.splice(destination.index, 0, draggableId)
+      const newTaskIds = Array.from(start.taskIds);
+      newTaskIds.splice(source.index, 1);
+      newTaskIds.splice(destination.index, 0, draggableId);
 
       const newColumn = {
         ...start,
-        taskIds: newTaskIds
-      }
+        taskIds: newTaskIds,
+      };
 
       const newState = {
-        ...initialData,
+        ...state,
         columns: {
-          ...initialData.columns,
-          [newColumn.id]: newColumn
-        }
-      }
-
-      this.setState(newState)
-      return
+          ...state.columns,
+          [newColumn.id]: newColumn,
+        },
+      };
+      setstate(newState)
+      return;
     }
 
     // Moving from one list to another
-    const startTaskIds = Array.from(start.taskIds)
-    startTaskIds.splice(source.index, 1)
+    const startTaskIds = Array.from(start.taskIds);
+    startTaskIds.splice(source.index, 1);
     const newStart = {
       ...start,
-      taskIds: startTaskIds
-    }
+      taskIds: startTaskIds,
+    };
 
-    const finishTaskIds = Array.from(finish.taskIds)
-    finishTaskIds.splice(destination.index, 0, draggableId)
+    const finishTaskIds = Array.from(finish.taskIds);
+    finishTaskIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
-      taskIds: finishTaskIds
-    }
+      taskIds: finishTaskIds,
+    };
 
     const newState = {
-      ...initialData,
+      ...state,
       columns: {
-        ...initialData.columns,
+        ...state.columns,
         [newStart.id]: newStart,
-        [newFinish.id]: newFinish
-      }
-    }
-    this.setState(newState)
-  }
-
-function DragOuterComponent() {
-
-   
+        [newFinish.id]: newFinish,
+      },
+    };
+    setstate(newState)
+  };
 
   return (
     <React.Fragment>
       <div className="drag-outer">
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Container>
-          {initialData.columnOrder.map(columnId => {
-            const column = initialData.columns[columnId]
-            const tasks = column.taskIds.map(
-              taskId => initialData.tasks[taskId]
-            )
-
-            return (
-              <Column key={column.id} column={column} tasks={tasks} />
-            )
-          })}
-          </Container>
-        </DragDropContext>
+        <div className="drag-inner">
+          <Button variant="outlined" color="primary" className="button-drag-add">
+            Add
+          </Button>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Container className="drag-container">
+              {state.columnOrder.map((columnId) => {
+                const column = state.columns[columnId];
+                const tasks = column.taskIds.map(
+                  (taskId) => state.tasks[taskId]
+                );
+                 
+                return (<Column key={column.id} column={column} tasks={tasks} className='drag-column'/>);
+              })}
+            </Container>
+          </DragDropContext>
+        </div>
       </div>
     </React.Fragment>
   );
