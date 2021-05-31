@@ -5,3 +5,12 @@
     font-family: 'Arial','san-serif';
     
 }
+.modal-outerdiv{
+    position: relative;
+    margin-top: 15%;
+    margin-left: 21%;
+    align-items: center;
+    width: 556px;
+    height: 361px;
+    border-style: groove;
+}

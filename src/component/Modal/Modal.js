@@ -3,6 +3,9 @@ import "./Modal.css";
 import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+
 const Background = styled.div`
   width: 100%;
   height: 100%;
@@ -67,12 +70,26 @@ function Modal({ showModal, setShowModal }) {
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
+  const options = [
+    'Low', 'Med', 'High'
+  ];
+  const defaultOption = options[0];
+
   return (
     <>
       {showModal ? (
         <Background onClick={closeModal} ref={modalRef}>
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal}>
+              
+                   <div className='modal-outerdiv'>
+                        <label htmlFor='priorityDropDown'>Priority</label>
+                        <Dropdown options={options}  value={defaultOption} placeholder="Select an option" />
+
+                        <textarea type='textarea' name='todotask' rows={5} cols={5} draggable={true} maxLength={150}></textarea>
+                     
+                   </div>
+                
               <CloseModalButton
                 aria-label="Close modal"
                 onClick={() => setShowModal((prev) => !prev)}
