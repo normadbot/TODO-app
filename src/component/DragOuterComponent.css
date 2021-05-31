@@ -1,6 +1,6 @@
 .drag-outer {
   background-color: #fff;
-  position: fixed;
+  position: inherit;
   margin-left: 8%;
   height: 72%;
   width: 84%;
@@ -22,7 +22,7 @@
   overflow: scroll !important;
 }
 .drag-header {
-  position: sticky !important;
+  position: unset !important;
   top: 0 !important;
   background: #d4b4b4 !important;
   margin-top: 0px !important;

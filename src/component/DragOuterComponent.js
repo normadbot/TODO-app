@@ -5,11 +5,19 @@ import styled from "styled-components";
 import Column from "./Column";
 import initialData from "./initialData";
 import { Button } from "@material-ui/core";
+import Modal from "./Modal/Modal";
+import './Modal/Modal.css';
 const Container = styled.div`
   display: flex;
 `;
 
 function DragOuterComponent() {
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = ()=>{
+    setShowModal(prev =>!prev);
+  }
+
   const [state, setstate] = useState(initialData);
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -77,12 +85,17 @@ function DragOuterComponent() {
 
   return (
     <React.Fragment>
+     <Modal showModal={showModal} setShowModal={setShowModal} className='globalStyleModal'></Modal>
       <div className="drag-outer">
+      
         <div className="drag-inner">
-          <Button variant="outlined" color="primary" className="button-drag-add">
+          
+          <Button onClick={openModal} variant="outlined" color="primary" className="button-drag-add">
             Add
           </Button>
+        
           <DragDropContext onDragEnd={onDragEnd}>
+          
             <Container className="drag-container">
               {state.columnOrder.map((columnId) => {
                 const column = state.columns[columnId];
